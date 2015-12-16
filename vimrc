@@ -61,6 +61,18 @@ set shellpipe=2>&1\ \|\ tee\ %s;exit\ \${PIPESTATUS[0]}
 " Clear PAGER if Vim's Man function is needed
 let $PAGER=''
 
+" ===
+" Editing vimrc
+" ===
+
+command! Vreload :source ~/.vimrc
+
+" Auto reload vimrc when saving
+autocmd BufWritePost .vimrc source ~/.vimrc
+
+" Fast vimrc editing
+map <leader>v :e! ~/.vimrc<CR>
+
 " =============================================================================
 " Editing
 " =============================================================================
