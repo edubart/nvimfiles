@@ -173,6 +173,52 @@ if has("statusline") && !&cp
 endif
 
 " =============================================================================
+" GUI
+" =============================================================================
+"
+
+if has("gui_running") 
+  " Enable mouse in all modes
+  set mouse=a
+
+  " Use console dialogs instead of popup dialogs
+  set guioptions+=c
+
+  " Inactive menu items are grey
+  set guioptions+=e
+
+  " Show menu bar
+  set guioptions+=m
+
+  " Hide toolbar
+  set guioptions-=T
+
+  " Don't use Aqua scrollbars
+  set guioptions-=rL
+
+  " Smooth fonts
+  set antialias
+
+  " Increase font size for (MacVim default: 11)
+  set guifont=Monospace\ 9
+
+  " Increase line-height (default: 0)
+  set linespace=1
+
+  " Starting window position at top left
+  winpos 0 0
+
+  " Turn off the blinking cursor in normal mode
+  set gcr=n:blinkon0
+
+  " Tab tooltip format
+  set guitabtooltip=%F
+
+  " Tab label format
+  set guitablabel=%N\ %t\ %m
+endif
+
+" =============================================================================
 " Command Line
 " =============================================================================
 
@@ -341,6 +387,12 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 " Automatically opens quickfix window on make errors
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
+
+" Treat std include files as cpp
+au BufEnter /usr/include/c++/* setf cpp
+
+" Turn off preview menu for omni
+set completeopt=menu
 
 " =============================================================================
 " Registers

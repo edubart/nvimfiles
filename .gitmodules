@@ -214,9 +214,9 @@
 [submodule "tools/vimwiki"]
 	path = tools/vimwiki
 	url = https://github.com/vim-scripts/vimwiki.git
-[submodule "tools/neoterm"]
-	path = tools/neoterm
+[submodule "neotools/neoterm"]
+	path = neotools/neoterm
 	url = https://github.com/kassio/neoterm.git
-[submodule "tools/neomake"]
-	path = tools/neomake
+[submodule "neotools/neomake"]
+	path = neotools/neomake
 	url = https://github.com/benekastah/neomake.git
