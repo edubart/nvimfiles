@@ -42,6 +42,11 @@ do
       fi
       shift
       ;;
+    -y | --ycm )
+      cd "$here/tools/youcompleteme"
+      ./install.sh --clang-completer 
+      shift
+      ;;
     -- )
       shift
       break
