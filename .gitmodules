@@ -220,3 +220,6 @@
 [submodule "neotools/neomake"]
 	path = neotools/neomake
 	url = https://github.com/benekastah/neomake.git
+[submodule "tools/cpp-enhanced-highlight"]
+	path = tools/cpp-enhanced-highlight
+	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
