@@ -154,8 +154,8 @@ fi
 # Minify
 minify_vim_script_file_in_place "${here}/build/vimrc.min"
 minify_vim_script_file_in_place "${here}/build/gvimrc.min"
-find "${here}/build/vim.min" -name "*.vim" |
-  while read file; do minify_vim_script_file_in_place "$file"; done
+#find "${here}/build/vim.min" -name "*.vim" |
+#  while read file; do minify_vim_script_file_in_place "$file"; done
 
 # Link to minified configurations
 ln -sfv "${here}/build/vimrc.min" "${HOME}/.vimrc"

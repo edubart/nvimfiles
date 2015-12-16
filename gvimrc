@@ -40,7 +40,7 @@ set guioptions-=rL
 set antialias
 
 " Increase font size for (MacVim default: 11)
-set guifont=Menlo\ Regular:h14
+set guifont=Monospace\ 9
 
 " Increase line-height (default: 0)
 set linespace=1

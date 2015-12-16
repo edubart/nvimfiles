@@ -184,3 +184,39 @@
 [submodule "langs/javascript"]
 	path = langs/javascript
 	url = https://github.com/jelera/vim-javascript-syntax.git
+[submodule "tools/indexed-search"]
+	path = tools/indexed-search
+	url = https://github.com/vim-scripts/IndexedSearch.git
+[submodule "tools/buffergator"]
+	path = tools/buffergator
+	url = https://github.com/vim-scripts/Buffergator.git
+[submodule "tools/syntastic"]
+	path = tools/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "tools/powerline"]
+	path = tools/powerline
+	url = https://github.com/Lokaltog/vim-powerline.git
+[submodule "tools/easymotion"]
+	path = tools/easymotion
+	url = https://github.com/easymotion/vim-easymotion.git
+[submodule "tools/yankring"]
+	path = tools/yankring
+	url = https://github.com/vim-scripts/YankRing.vim.git
+[submodule "tools/gitgutter"]
+	path = tools/gitgutter
+	url = https://github.com/airblade/vim-gitgutter.git
+[submodule "tools/youcompleteme"]
+	path = tools/youcompleteme
+	url = https://github.com/Valloric/YouCompleteMe.git
+[submodule "tools/a"]
+	path = tools/a
+	url = https://github.com/vim-scripts/a.vim.git
+[submodule "tools/vimwiki"]
+	path = tools/vimwiki
+	url = https://github.com/vim-scripts/vimwiki.git
+[submodule "tools/neoterm"]
+	path = tools/neoterm
+	url = https://github.com/kassio/neoterm.git
+[submodule "tools/neomake"]
+	path = tools/neomake
+	url = https://github.com/benekastah/neomake.git

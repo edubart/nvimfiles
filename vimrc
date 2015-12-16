@@ -35,6 +35,7 @@ set secure
 
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
+set spelllang=en
 
 " Respect modelines in files up to this number of lines
 set modeline
@@ -50,6 +51,12 @@ let mapleader=","
 " Prevent Vim from clearing the scrollback buffer
 " http://www.shallowsky.com/linux/noaltscreen.html
 set t_ti= t_te=
+
+" Disable bells
+set visualbell t_vb=
+
+" Get return codes from make
+set shellpipe=2>&1\ \|\ tee\ %s;exit\ \${PIPESTATUS[0]}
 
 " Clear PAGER if Vim's Man function is needed
 let $PAGER=''
@@ -74,10 +81,14 @@ set backspace=indent,eol,start
 " Invisible characters
 "set listchars=tab:▸\ ,nbsp:_
 "set listchars=tab:\ \ ,trail:·,eol:¬,nbsp:_,extends:❯,precedes:❮
-set listchars=tab:▸\ ,trail:·,eol:¬,nbsp:_,extends:❯,precedes:❮
+"set listchars=tab:▸\ ,trail:·,eol:¬,nbsp:_,extends:❯,precedes:❮
+set listchars=tab:▷⋅,trail:⋅,nbsp:⋅
 
 " Don't show invisible characters (default)
-set nolist
+"set nolist
+
+" Show invisible characters
+set list
 
 " Toggle set list
 nnoremap <leader>l :set list!<cr>
@@ -143,16 +154,10 @@ set title           " Show the filename in the window titlebar
 set t_Co=256        " 256 colors
 set background=dark " Dark background
 syntax on           " Enable syntax highlighting
-colorscheme monokai " Set the default colorscheme
+colorscheme molokai " Set the default colorscheme
 set noerrorbells    " Disable error bells
 set shortmess=atI   " Don't show the Vim intro message
 set number          " Show line numbers
-
-" Use relative line numbers - This is now handled by numbers.vim
-" if exists("&relativenumber")
-"   set relativenumber
-"   au BufReadPost * set relativenumber
-" endif
 
 ""
 "" Status Line
@@ -173,6 +178,7 @@ endif
 
 " Display incomplete commands below the status line
 set showcmd
+set showmode
 
 " Default shell and shell syntax
 set shell=bash
@@ -225,6 +231,9 @@ set wildignore+=*/tmp/cache/assets/*/sprockets/*,*/tmp/cache/assets/*/sass/*
 
 " Ignore node modules
 set wildignore+=node_modules/*
+
+" Ignore build directories
+set wildignore+=build/*,build.*/*
 
 " Disable temp and backup files
 set wildignore+=*.swp,*~,._*
@@ -290,6 +299,48 @@ set splitbelow splitright
 " nnoremap <c-j> <c-w>j
 " nnoremap <c-k> <c-w>k
 " nnoremap <c-l> <c-w>l
+
+" Allow switching windows while in insert mode
+imap <C-w> <Esc><C-w>
+
+" =============================================================================
+" CMake/C++
+" =============================================================================
+
+" Override make command for CMake projects
+function! SetupMake()
+    if filereadable("CMakeLists.txt") && filereadable("./build/Makefile")
+        set makeprg=make\ -j8\ -C\ build
+    else
+        set makeprg=make\ -j8
+    endif
+endfunction
+
+function! Compile()
+    call SetupMake()
+    make
+endfunction
+
+function! Run()
+    call SetupMake()
+    make tests
+endfunction
+
+"command! Ctags :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .
+
+" Formating style for c++
+autocmd BufNewFile,BufRead *.cpp set formatprg=astyle\ -A1s4Sclk1
+autocmd BufNewFile,BufRead *.hpp set formatprg=astyle\ -A2s4SOclk1
+autocmd BufNewFile,BufRead *.c set formatprg=astyle\ -A1s4Sclk1
+autocmd BufNewFile,BufRead *.h set formatprg=astyle\ -A2s4SOclk1
+
+" Auto close preview window
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" Automatically opens quickfix window on make errors
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
 
 " =============================================================================
 " Registers
@@ -437,6 +488,14 @@ set synmaxcol=512
 " =============================================================================
 
 ""
+"" YankRing
+""
+
+" Fix yankring conflict with ctrlp
+let g:yankring_replace_n_pkey = '<Char-172>'
+let g:yankring_replace_n_nkey = '<Char-174>'
+
+""
 "" Fugitive
 ""
 
@@ -483,12 +542,27 @@ noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 24, 4)<cr>
 nmap <leader>` ysiw`
 nmap <leader>' ysiw'
 
+""
+"" Buffergator
+""
+
+let g:buffergator_viewport_split_policy="T"
+let g:buffergator_split_size=15
+let g:buffergator_sort_regime="mru"
+
+""
+"" YouCompleteMe
+""
+
+let g:ycm_confirm_extra_conf=0
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
 " =============================================================================
 " Application Interaction
 " =============================================================================
 
-command! Marked silent !open -a "Marked.app" "%:p"
-nnoremap <silent> <leader>m :Marked<cr>\|:redraw!<cr>
+"command! Marked silent !open -a "Marked.app" "%:p"
+"nnoremap <silent> <leader>m :Marked<cr>\|:redraw!<cr>
 
 " =============================================================================
 " Typos, Errors, and Typing Discipline
@@ -527,11 +601,39 @@ nnoremap ( <nop>
 nnoremap ) <nop>
 
 " Disable arrow keys in normal mode and insert mode
-noremap <left> <nop>
-noremap <right> <nop>
-noremap <up> <nop>
-noremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
+"noremap <left> <nop>
+"noremap <right> <nop>
+"noremap <up> <nop>
+"noremap <down> <nop>
+"inoremap <left> <nop>
+"inoremap <right> <nop>
+"inoremap <up> <nop>
+"inoremap <down> <nop>
+"
+
+" ========================
+" Use :w!! to write to a file using sudo if you forgot to 'sudo vim file'
+cmap w!! %!sudo tee > /dev/null %
+
+" Useful replacing macros
+nnoremap gr gd[{V%:s/<C-R>///gc<left><left><left>
+nnoremap gR gD:%s/<C-R>///gc<left><left><left>
+
+" Explorer mappings
+nnoremap <f2> :NERDTreeToggle<cr>
+nnoremap <f3> :BuffergatorToggle<cr>
+nnoremap <f4> :GundoToggle<cr>
+map <f5> :call Compile()<CR>
+map <f6> :call Run()<CR>
+
+
+" Toggle spell checking
+nmap <silent> <leader>s :set spell!<CR>
+
+" Key mapping for quickfix navigation
+map <C-n> :cnext<CR>
+map <C-b> :cprevious<CR>
+map <leader>q :ccl<cr>
+
+" Ctrl + S for saving files
+map <C-s> :w<cr>
