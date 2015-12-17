@@ -684,8 +684,9 @@ nnoremap gr gd[{V%:s/<C-R>///gc<left><left><left>
 nnoremap gR gD:%s/<C-R>///gc<left><left><left>
 
 " Explorer mappings
-nnoremap <f2> :NERDTreeToggle<cr>
-nnoremap <f3> :BuffergatorToggle<cr>
+nnoremap <f1> :NERDTreeToggle<cr>
+nnoremap <f2> :BuffergatorToggle<cr>
+nnoremap <f3> :Tagbar<cr>
 nnoremap <f4> :GundoToggle<cr>
 map <f5> :call Compile()<CR>
 map <f6> :call Run()<CR>
